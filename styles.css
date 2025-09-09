@@ -1363,7 +1363,7 @@ footer.hide {
     justify-content: space-between;
     align-items: center;
     padding: 0 15px;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    background: #;
 }
 
 .player-controls button {
@@ -1377,7 +1377,7 @@ footer.hide {
 .player-timeline {
     flex: 1;
     height: 4px;
-    background-color: rgba(255,255,255,0.3);
+    background-color: #;
     margin: 0 15px;
     border-radius: 2px;
     position: relative;
