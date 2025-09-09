@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hausa Movies</title>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Hidden radio buttons for navigation -->
+    <input type="radio" name="nav" id="nav-discover" class="nav-radio" checked>
+    <input type="radio" name="nav" id="nav-movies" class="nav-radio">
+    <input type="radio" name="nav" id="nav-trending" class="nav-radio">
+    <input type="radio" name="nav" id="nav-mylist" class="nav-radio">
+    <input type="radio" name="nav" id="nav-apps" class="nav-radio">
+    
+    <!-- Network Warning - Updated to match image -->
+    <div class="network-warning hidden" id="network-warning">
+        <i class="fas fa-wifi-slash network-warning-icon"></i>
+        <div class="network-warning-text">No network connection found</div>
+        <button class="network-warning-retry" onclick="checkNetworkConnection()">Try Again</button>
+    </div>
+    
+    <header>
+        <div class="header-top">
+            <!-- Bars Icon -->
+            <div class="bars-icon" onclick="toggleSidebarModal()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <!-- Logo as Image -->
+            <div class="logo">
+                <img src="https://ucarecdn.com/cee71935-3e43-44cb-a532-f962e8a311d1/-/preview/1000x1000/" alt="Hausa Movies Logo" />
+            </div>
+            <!-- History Icon -->
+            <div class="history-icon" onclick="toggleHistoryModal()">
+                <i class="fas fa-history"></i>
+                <span class="notification-badge">3</span>
+            </div>
+            <!-- Search Bar Container -->
+            <div class="search-container" style="position: relative;">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-bar" placeholder="Search movies..." oninput="handleSearch()" onfocus="showSearchSuggestions()" onblur="hideSearchSuggestions()" />
+                <i class="fas fa-filter" onclick="toggleFilterModal()" style="margin-left: 10px; cursor: pointer;"></i>
+                <!-- Search Suggestions -->
+                <div class="search-suggestions" id="search-suggestions"></div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Filter Modal -->
+    <div class="filter-container" id="filter-modal">
+        <div class="filter-header">
+            <h3>Filter & Sort</h3>
+            <button onclick="toggleFilterModal()">✖</button>
+        </div>
+        <div class="filter-section">
+            <h4>Genre</h4>
+            <div class="filter-options">
+                <div class="filter-option active" data-genre="All">All</div>
+                <div class="filter-option" data-genre="Action">Action</div>
+                <div class="filter-option" data-genre="Drama">Drama</div>
+                <div class="filter-option" data-genre="Comedy">Comedy</div>
+                <div class="filter-option" data-genre="Romance">Romance</div>
+                <div class="filter-option" data-genre="Thriller">Thriller</div>
+            </div>
+        </div>
+        <div class="filter-section">
+            <h4>Sort By</h4>
+            <div class="filter-options">
+                <div class="filter-option active" data-sort="Newest">Newest</div>
+                <div class="filter-option" data-sort="Popular">Popular</div>
+                <div class="filter-option" data-sort="Rating">Rating</div>
+                <div class="filter-option" data-sort="A-Z">A-Z</div>
+            </div>
+        </div>
+        <button class="apply-filter-btn" onclick="applyFilters()">Apply Filters</button>
+    </div>
+    
+    <!-- Download Progress -->
+    <div class="download-progress" id="download-progress">
+        <div class="download-header">
+            <div class="download-title">CUTAR KAI.mp4</div>
+            <div class="download-percentage">45%</div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: 45%;"></div>
+        </div>
+        <div class="download-actions">
+            <button>Pause</button>
+            <button class="primary">Cancel</button>
+        </div>
+    </div>
+    
+    <!-- Sidebar Modal -->
+    <div class="sidebar-modal" id="sidebar-modal">
+        <div class="sidebar-modal-header">
+            <h3></h3>
+            <button onclick="toggleSidebarModal()">×</button>
+        </div>
+        
+        <!-- User Profile Section -->
+        <div class="user-profile">
+            <div class="user-avatar" id="user-avatar">
+                <i class="fas fa-user" style="font-size: 36px;"></i>
+            </div>
+            <div class="user-info">
+                <h3 id="user-name">Hausa Movies User</h3>
+                <p>Free Account</p>
+            </div>
+            <button class="edit-profile-btn" onclick="openEditProfileModal()">
+                <i class="fas fa-edit"></i> Edit Profile
+            </button>
+        </div>
+        
+        <!-- Logos Section -->
+        <div class="logos-container">
+            <div class="logos-title">Our Partners</div>
+            <div class="logos-scroll" id="logos-scroll"></div>
+        </div>
+        
+        <div class="sidebar-list" id="sidebar-list">
+            <!-- Previous sidebar items -->
+            <div class="sidebar-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/18831/18831648.png" alt="Director Center">
+                <span>Director Center</span>
+            </div>
+            <div class="sidebar-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/5303/5303479.png" alt="Earn Rewards">
+                <span>Earn Rewards</span>
+            </div>
+            <div class="sidebar-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/9592/9592247.png" alt="Viewer Gift">
+                <span>Viewer Gift</span>
+            </div>
+            <div class="sidebar-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/18392/18392966.png" alt="Online Service">
+                <span>Online Service</span>
+            </div>
+            <div class="sidebar-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/2312/2312342.png" alt="Privacy Policy">
+                <span>Privacy Policy</span>
+            </div>
+            <!-- New items -->
+            <div class="sidebar-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/3405/3405247.png" alt="Settings">
+                <span>Settings</span>
+            </div>
+            <div class="sidebar-item">
+                <img src="https://cdn-icons-png.flaticon.com/128/2838/2838694.png" alt="Help">
+                <span>Help & Support</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Profile Modal -->
+    <div class="edit-profile-modal" id="edit-profile-modal">
+        <div class="edit-profile-content">
+            <div class="edit-profile-header">
+                <h3>Edit Profile</h3>
+                <button onclick="closeEditProfileModal()">✖</button>
+            </div>
+            <div class="avatar-selection">
+                <div class="avatar-option" data-avatar="1">
+                    <img src="https://cdn-icons-png.flaticon.com/128/6997/6997666.png" alt="Avatar 1">
+                </div>
+                <div class="avatar-option" data-avatar="2">
+                    <img src="https://cdn-icons-png.flaticon.com/128/6997/6997662.png" alt="Avatar 2">
+                </div>
+                <div class="avatar-option" data-avatar="3">
+                    <img src="https://cdn-icons-png.flaticon.com/128/6997/6997661.png" alt="Avatar 3">
+                </div>
+                <div class="avatar-option" data-avatar="4">
+                    <img src="https://cdn-icons-png.flaticon.com/128/6997/6997664.png" alt="Avatar 4">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="user-name-input">Name</label>
+                <input type="text" id="user-name-input" placeholder="Enter your name">
+            </div>
+            <button class="save-profile-btn" onclick="saveProfile()">Save Changes</button>
+        </div>
+    </div>
+    
+    <div class="notification-bar" id="notification-bar">
+        <img src="https://bit.ly/434z6xR" alt="App Logo">
+        <div class="notification-text">Enjoy more movies download Hausa Movies app.</div>
+        <button class="notification-button" onclick="window.open('https://www.appcreator24.com/app3501058-ks4rfa', '_blank')">OPEN</button>
+        <button class="close-button" onclick="closeNotification()">✖</button>
+    </div>
+    <!-- History Modal -->
+    <div class="history-modal" id="history-modal">
+        <div class="history-modal-header">
+            <h3>Recently Watched</h3>
+            <button onclick="toggleHistoryModal()">✖</button>
+        </div>
+        <div class="history-list" id="history-list"></div>
+        <button class="clear-history-button" onclick="clearHistory()">Clear All History</button>
+    </div>
+    <!-- Discover Section -->
+    <div class="discover-container" id="discover-container">
+        <!-- Carousel Section - Now inside discover section -->
+        <div class="carousel-container">
+            <div class="carousel" id="carousel"></div>
+            <div class="dots" id="dots"></div>
+        </div>
+        
+        <!-- Categories Section - New section based on screenshot -->
+        <div class="categories-section">
+            <div class="categories-title">Categories</div>
+            <div class="categories-scroll" id="categories-scroll">
+                <div class="category-btn active" data-category="All">All</div>
+                <div class="category-btn" data-category="Hollywood">Hollywood</div>
+                <div class="category-btn" data-category="Nollywood">Nollywood</div>
+                <div class="category-btn" data-category="Bollywood">Bollywood</div>
+                <div class="category-btn" data-category="Kannywood">Kannywood</div>
+                <div class="category-btn" data-category="Action">Action</div>
+                <div class="category-btn" data-category="Drama">Drama</div>
+                <div class="category-btn" data-category="Comedy">Comedy</div>
+            </div>
+        </div>
+        
+        <div class="discover-scroll" id="discover-scroll"></div>
+    </div>        
+    <!-- Categories Section -->
+    <div id="categories-container"></div>
+    <!-- Grid Layout for View All and Search Results -->
+    <div id="grid-container" class="grid-container" style="display: none;"></div>
+    <!-- Navigation Modal -->
+    <div class="nav-container" id="video-nav">
+        <div class="nav-content">
+            <div class="nav-header">
+                <button id="close-btn" onclick="closeNav()"><i class="fas fa-arrow-left"></i></button>
+                <div>
+                    <button id="share-btn" onclick="shareMovie()"><i class="fas fa-share-alt"></i> Share</button>
+                    <button id="download-btn" onclick="downloadMovie()"><i class="fas fa-download"></i></button>
+                    <button id="save-btn" class="save-btn" onclick="toggleSaveStatus()">Add to list</button>
+                </div>
+            </div>
+            <div class="nav-body">
+                <div style="position: relative; width: 100%; height: 100%;">
+                    <button class="quality-selector">HD <i class="fas fa-chevron-down"></i></button>
+                    <iframe id="video-player" src="" frameborder="0" allowfullscreen style="width: 100%; height: 100%;"></iframe>
+                    <div class="player-controls">
+                        <button><i class="fas fa-backward"></i></button>
+                        <div class="player-timeline">
+                            <div class="player-progress"></div>
+                        </div>
+                        <button><i class="fas fa-forward"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- Episode Footer -->
+            <div class="episode-footer" id="episode-footer" style="display: none;">
+                <div class="episode-header">
+                    <div class="episode-title" id="episode-title">Episodes</div>
+                    <div class="episode-count" id="episode-count">0 Episodes</div>
+                </div>
+                <div class="episode-scroller" id="episode-scroller">
+                    <!-- Episode buttons will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+        <!-- Ad container below popular videos -->
+  <div class="ad-container" id="adContainer" style="display: none;">
+    <div class="ad-wrapper">
+      <div class="ad-content" id="adContent"></div>
+    </div>
+    <a href="#" id="installButton" class="install-button" target="_blank">Install</a>
+  </div>
+    </div>
+    
+    <!-- Social Media Descriptions -->
+    <div id="social-media-descriptions">
+        <h2>Follow us on social media:</h2>
+    </div>
+    <!-- Social Media Icons -->
+    <div id="social-media">
+        <a href="https://www.facebook.com/share/1AQXgVMP49/" target="_blank" class="social-icon">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-telegram"></i>
+        </a>
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-youtube"></i>
+        </a>
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-tiktok"></i>
+        </a>
+    </div>
+    <!-- Bottom Navigation Bar -->
+    <footer>
+        <label for="nav-discover" class="nav-icon" onclick="showDiscoverSection();">
+            <i class="fas fa-compass"></i>
+            <span>Discover</span>
+        </label>
+        <label for="nav-movies" class="nav-icon" onclick="showHomeVideos();">
+            <i class="fas fa-film"></i>
+            <span>Movies</span>
+        </label>
+        <label for="nav-trending" class="nav-icon" onclick="showTrendingVideos();">
+            <i class="fas fa-fire"></i>
+            <span>Trending</span>
+        </label>
+        <label for="nav-mylist" class="nav-icon" onclick="showMyList();">
+            <i class="fas fa-list"></i>
+            <span>My List</span>
+        </label>
+        <label for="nav-apps" class="nav-icon" onclick="showProfileSection();">
+            <i class="fab fa-app-store"></i>
+            <span>Apps</span>
+        </label>
+    </footer>
+    
+    <!-- External JavaScript files -->
+    <script src="videos-data.js"></script>
+    <script src="series-data.js"></script>
+    <script src="anime-data.js"></script>
+    <script src="profile-apps.js"></script>
+    <script src="ads-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
