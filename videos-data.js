@@ -21,7 +21,7 @@ const videosData = [
         description: "A heartwarming drama about family bonds and traditions.",
         imgUrl: "https://ucarecdn.com/5332d0cd-7915-4111-a6e7-0037f9a2ca51/-/preview/562x1000/",
         carouselCover: "https://ucarecdn.com/5332d0cd-7915-4111-a6e7-0037f9a2ca51/-/preview/562x1000/",
-        videoUrl: "https://drive.google.com/file/d/1qaPa0odvnAbmf0WBIu6TYcCXGU1xBTI0/preview",
+        videoUrl: "https://www.dailymotion.com/embed/video/x9h60de",
         category: "Kannywood",
         genre: "Drama",
         year: "2022",
