@@ -5,7 +5,7 @@ const videosData = [
         description: "A thrilling action movie about revenge and justice.",
         imgUrl: "https://ucarecdn.com/695bce5b-3fb6-4254-a406-8c06977c260e/-/preview/720x963/",
         carouselCover: "https://ucarecdn.com/695bce5b-3fb6-4254-a406-8c06977c260e/-/preview/720x963/",
-        videoUrl: "https://drive.google.com/file/d/1CWOELtePqeDDI-t07aWB0NAWQXlvH-ul/preview",
+        videoUrl: "https://www.dailymotion.com/embed/video/x9h60de",
         category: "Kannywood",
         genre: "Action",
         year: "2023",
